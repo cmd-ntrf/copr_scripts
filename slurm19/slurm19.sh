@@ -7,7 +7,7 @@ TARNAME=$(echo $VERSION | sed 's/-/./g' | cut -d. -f1,2,3)
 curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/slurm-${VERSION}/slurm.spec
 sed -i 's/.bz2/.gz/g' slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.spec
-sed -i 's/python/python3/g' slurm.spec
+sed -i 's/python$/python3/g' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
 curl -L -O https://github.com/SchedMD/slurm/archive/slurm-${VERSION}.tar.gz
 tar xvf slurm-${VERSION}.tar.gz
