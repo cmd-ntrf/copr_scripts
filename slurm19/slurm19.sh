@@ -1,6 +1,6 @@
 #!/bin/sh -x
 
-TAG="slurm-19-05-6-1"
+TAG=$(curl -s -N https://api.github.com/repos/schedmd/slurm/tags | jq -r '.[].name' | grep -m 1 slurm-19)
 VERSION=$(echo $TAG | cut -d- -f2,3,4,5)
 TARNAME=$(echo $VERSION | sed 's/-/./g' | cut -d. -f1,2,3)
 
