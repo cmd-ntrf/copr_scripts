@@ -15,6 +15,7 @@ rm slurm-${VERSION}.tar.gz
 mv slurm-slurm-${VERSION} slurm-${TARNAME}
 cd slurm-${TARNAME}
 sed -i -e 's;nvml_includes=".*";nvml_includes="-I/usr/local/cuda-10.1/targets/x86_64-linux/include";g' auxdir/x_ac_nvml.m4
+sed -i -e 's;#!/usr/bin/env python;#!/usr/bin/env python3;g' doc/html/shtml2html.py
 autoconf
 automake
 cd ..
