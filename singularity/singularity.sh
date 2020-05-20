@@ -6,4 +6,5 @@ NAME=$(echo $VERSION | cut -d. -f1,2)
 curl -L -O https://github.com/hpcng/singularity/releases/download/${TAG}/singularity-$VERSION.tar.gz
 tar xf singularity-${VERSION}.tar.gz singularity/singularity.spec
 mv singularity/singularity.spec .
+patch < curl https://raw.githubusercontent.com/cmd-ntrf/copr_scripts/master/singularity/el8.patch 
 sed -i "28 a %global _prefix /opt/software/singularity-${NAME}" singularity.spec
