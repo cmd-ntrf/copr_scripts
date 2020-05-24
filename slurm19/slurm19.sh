@@ -1,4 +1,5 @@
-#!/bin/sh -x
+#!/bin/bash
+set -e
 
 TAG=$(curl -s -N https://api.github.com/repos/schedmd/slurm/tags | jq -r '.[].name' | grep -m 1 slurm-19)
 VERSION=$(echo $TAG | cut -d- -f2,3,4,5)
