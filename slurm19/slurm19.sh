@@ -9,6 +9,12 @@ curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/slurm-${VERSION}/slur
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.spec
 sed -i 's/python$/python3/g' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
+
+# CentOS 8 has hardened build
+sed -i '59 a %undefine _hardened_build' slurm.spec
+sed -i '60 a %global _hardened_cflags "-Wl,-z,lazy"' slurm.spec
+sed -i '61 a %global _hardened_ldflags "-Wl,-z,lazy"' slurm.spec
+
 curl -L -O https://download.schedmd.com/slurm/slurm-${TARNAME}.tar.bz2
 tar xf slurm-${TARNAME}.tar.bz2
 rm slurm-${TARNAME}.tar.bz2
