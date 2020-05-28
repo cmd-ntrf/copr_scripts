@@ -21,6 +21,7 @@ rm slurm-${TARNAME}.tar.bz2
 cd slurm-${TARNAME}
 sed -i -e 's;nvml_includes=".*";nvml_includes="-I/usr/local/cuda-10.1/targets/x86_64-linux/include";g' auxdir/x_ac_nvml.m4
 sed -i -e 's;#!/usr/bin/env python;#!/usr/bin/env python3;g' doc/html/shtml2html.py
+curl https://raw.githubusercontent.com/cmd-ntrf/copr_scripts/master/slurm19/bug9109.patch | patch -p1
 autoconf
 aclocal
 automake
