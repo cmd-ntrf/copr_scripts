@@ -13,7 +13,7 @@ curl -L -O https://download.schedmd.com/slurm/slurm-${TARNAME}.tar.bz2
 tar xf slurm-${TARNAME}.tar.bz2
 rm slurm-${TARNAME}.tar.bz2
 cd slurm-${TARNAME}
-sed -i -e 's;nvml_includes=".*";nvml_includes="-I/usr/local/cuda-10.1/targets/x86_64-linux/include";g' auxdir/x_ac_nvml.m4
+sed -i -e 's;nvml_includes=".*";nvml_includes="-I/usr/local/cuda-11.1/targets/x86_64-linux/include";g' auxdir/x_ac_nvml.m4
 curl https://raw.githubusercontent.com/cmd-ntrf/copr_scripts/master/slurm20/bug9109.patch | patch -p1
 autoconf
 aclocal
