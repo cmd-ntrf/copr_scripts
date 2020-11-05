@@ -16,4 +16,4 @@ cd ..
 cp mokey-master/mokey.spec .
 cp mokey-master/*linux-amd64.tar.gz .
 
-rm -rf go/ go1.13.15.linux-amd64.tar.gz master.zip mokey-masters
+rm -rf go/ go1.13.15.linux-amd64.tar.gz master.zip mokey-master/
