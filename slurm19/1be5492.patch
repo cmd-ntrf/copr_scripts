@@ -1,0 +1,24 @@
+From 1be5492c274e170451ed18763e7eeea826f57cb7 Mon Sep 17 00:00:00 2001
+From: Tim McMullan <mcmullan@schedmd.com>
+Date: Tue, 11 Aug 2020 11:32:26 -0400
+Subject: [PATCH] slurm.spec - don't depend on libnvidia-ml to allow manual
+ cuda installs
+
+Bug 9525
+---
+ slurm.spec | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/slurm.spec b/slurm.spec
+index 39132b7b1e..ae62fbc1a4 100644
+--- a/slurm.spec
++++ b/slurm.spec
+@@ -360,7 +360,7 @@ export QA_RPATHS=0x5
+ # Strip out some dependencies
+ 
+ cat > find-requires.sh <<'EOF'
+-exec %{__find_requires} "$@" | egrep -v '^libpmix.so|libevent'
++exec %{__find_requires} "$@" | egrep -v '^libpmix.so|libevent|libnvidia-ml'
+ EOF
+ chmod +x find-requires.sh
+ %global _use_internal_dependency_generator 0

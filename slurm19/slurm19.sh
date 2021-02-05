@@ -6,6 +6,7 @@ VERSION=$(echo $TAG | cut -d- -f2,3,4,5)
 TARNAME=$(echo $VERSION | sed 's/-/./g' | cut -d. -f1,2,3)
 
 curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/slurm-${VERSION}/slurm.spec
+curl https://raw.githubusercontent.com/cmd-ntrf/copr_scripts/master/slurm19/1be5492.patch | patch -p1
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.spec
 sed -i 's/python$/python3/g' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
