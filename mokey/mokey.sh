@@ -9,7 +9,7 @@ curl -L -O https://golang.org/dl/go1.13.15.linux-amd64.tar.gz
 tar xvf go*.linux-amd64.tar.gz
 export PATH=$PATH:$PWD/go/bin
 
-unzip mokey-${VERSION}.zip
+unzip v${VERSION}.zip
 cd mokey-${VERSION}
 go build .
 . scripts/make-release.sh
