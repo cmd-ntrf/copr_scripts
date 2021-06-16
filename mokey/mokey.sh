@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION=0.5.5
+VERSION=0.5.6
 
 curl -L -O https://github.com/ubccr/mokey/archive/v${VERSION}.zip
 curl -L -O https://golang.org/dl/go1.13.15.linux-amd64.tar.gz
