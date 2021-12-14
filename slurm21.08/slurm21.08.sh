@@ -6,6 +6,7 @@ VERSION=$(echo $TAG | cut -d- -f2,3,4,5)
 TARNAME=$(echo $VERSION | sed 's/-/./g' | cut -d. -f1,2,3)
 
 curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/slurm-${VERSION}/slurm.spec
+sed -i '/^%configure/a \ \ \ \ \ \ \ \ --enable-selinux \\' slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.spec
 # auth_jwt.so is missing in Slurm 20.11.7
 sed -i '/^%files slurmrestd/a %{_libdir}/slurm/auth_jwt.so' slurm.spec
