@@ -11,9 +11,7 @@ sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.sp
 # auth_jwt.so is missing in Slurm 20.11.7
 sed -i '/^%files slurmrestd/a %{_libdir}/slurm/auth_jwt.so' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
-if cat /etc/redhat-release | grep -q "release 9"; then
-    sed -i '10 a %define _lto_cflags %{nil}' slurm.spec
-fi
+sed -i '10 a %define _lto_cflags %{nil}' slurm.spec
 curl -L -O https://download.schedmd.com/slurm/slurm-${TARNAME}.tar.bz2
 tar xf slurm-${TARNAME}.tar.bz2
 rm slurm-${TARNAME}.tar.bz2
