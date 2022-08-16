@@ -11,6 +11,9 @@ sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.sp
 sed -i '/^%files slurmrestd/a %{_libdir}/slurm/auth_jwt.so' slurm.spec
 sed -i 's/python$/python3/g' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
+if cat /etc/redhat-release | grep -q "release 9"; then
+    sed -i '10 a %define _lto_cflags %{nil}' slurm.spec
+fi
 curl -L -O https://download.schedmd.com/slurm/slurm-${TARNAME}.tar.bz2
 tar xf slurm-${TARNAME}.tar.bz2
 rm slurm-${TARNAME}.tar.bz2
