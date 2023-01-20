@@ -23,7 +23,6 @@ A Prometheus exporter for metrics extracted from the Slurm resource scheduling s
 %setup -q -n %{name}-%{version}
 
 %build
-# Empty section.
 go build
 
 %install
@@ -36,17 +35,21 @@ install -m 755 prometheus-slurm-exporter %{buildroot}/usr/bin/prometheus-slurm-e
 rm -rf %{buildroot}
 
 %pre
+# Empty section.
 
 %post
+# Empty section.
 
 %preun
+# Empty section.
 
 %postun
+# Empty section.
 
 %files
 %defattr(-,root,root,-)
 %{_bindir}/prometheus-slurm-exporter
 
 %changelog
-* Fri Jan 20 2023 Felix <felix@calculquebe.ca> - 0.21
+* Fri Jan 20 2023 Felix <felix@calculquebec.ca> - 0.21
 - Remaster spec file to use go build
