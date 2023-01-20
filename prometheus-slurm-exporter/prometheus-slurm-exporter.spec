@@ -46,7 +46,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_bindir}/prometheus-slurm-exporter
-%attr(755, prometheus, prometheus)/var/lib/prometheus
 
 %changelog
 * Fri Jan 20 2023 Felix <felix@calculquebe.ca> - 0.21
