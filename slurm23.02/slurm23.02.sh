@@ -15,7 +15,6 @@ curl -L -O https://download.schedmd.com/slurm/slurm-${TARNAME}.tar.bz2
 tar xf slurm-${TARNAME}.tar.bz2
 rm slurm-${TARNAME}.tar.bz2
 cd slurm-${TARNAME}
-sed -i -e "s;_x_ac_nvml_dirs=\".*\";_x_ac_nvml_dirs=\"$(echo /usr/local/cuda-11.*)\";g" auxdir/x_ac_nvml.m4
 curl https://raw.githubusercontent.com/cmd-ntrf/copr_scripts/master/slurm22.05/bug9109.patch | patch -p1
 autoconf
 aclocal
