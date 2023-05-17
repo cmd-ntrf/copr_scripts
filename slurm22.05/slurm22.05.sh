@@ -8,6 +8,10 @@ TARNAME=$(echo $VERSION | sed 's/-/./g' | cut -d. -f1,2,3)
 curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/slurm-${VERSION}/slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --enable-selinux \\' slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.spec
+# In RedHat 9, in the generated libtool script, if LT_SYS_LIBRARY_PATH is not set
+# its value is set to /opt/software/slurm/lib64 which then appears to prevent that
+# path to figure in the RPATH of pam_slurm_adopt.so. By setting the value to an
+# empty string during the configure, we prevent that from happening.
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ LT_SYS_LIBRARY_PATH="" \\' slurm.spec
 # auth_jwt.so is missing in Slurm 20.11.7
 sed -i '/^%files slurmrestd/a %{_libdir}/slurm/auth_jwt.so' slurm.spec
