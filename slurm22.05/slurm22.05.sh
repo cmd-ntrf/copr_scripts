@@ -8,15 +8,18 @@ TARNAME=$(echo $VERSION | sed 's/-/./g' | cut -d. -f1,2,3)
 curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/slurm-${VERSION}/slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --enable-selinux \\' slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.spec
+sed -i '/^%configure/a \ \ \ \ \ \ \ \ LT_SYS_LIBRARY_PATH="" \\' slurm.spec
 # auth_jwt.so is missing in Slurm 20.11.7
 sed -i '/^%files slurmrestd/a %{_libdir}/slurm/auth_jwt.so' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
+sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
 curl -L -O https://download.schedmd.com/slurm/slurm-${TARNAME}.tar.bz2
 tar xf slurm-${TARNAME}.tar.bz2
 rm slurm-${TARNAME}.tar.bz2
 cd slurm-${TARNAME}
 sed -i -e "s;_x_ac_nvml_dirs=\".*\";_x_ac_nvml_dirs=\"$(echo /usr/local/cuda-11.*)\";g" auxdir/x_ac_nvml.m4
 curl https://raw.githubusercontent.com/cmd-ntrf/copr_scripts/master/slurm22.05/bug9109.patch | patch -p1
+autoreconf
 autoconf
 aclocal
 automake
