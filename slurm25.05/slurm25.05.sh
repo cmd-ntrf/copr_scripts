@@ -16,12 +16,12 @@ sed -i '/^%configure/a \ \ \ \ \ \ \ \ LT_SYS_LIBRARY_PATH="" \\' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
 sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
 curl -L -O https://download.schedmd.com/slurm/slurm-25.05-latest.tar.bz2
-tar xf slurm-${TARNAME}.tar.bz2
-rm slurm-${TARNAME}.tar.bz2
-cd slurm-${TARNAME}
+tar xf slurm-25.05-latest.tar.bz2
+rm slurm-25.05-latest.tar.bz2
+cd slurm-${TARNAME}*
 autoconf
 aclocal
 automake
 cd ..
-tar cjSf slurm-${TARNAME}.tar.bz2 slurm-${TARNAME}
-rm -rf slurm-${TARNAME}
+tar cjSf slurm-${TARNAME}.tar.bz2 slurm-${TARNAME}*
+rm -rf slurm-${TARNAME}*
