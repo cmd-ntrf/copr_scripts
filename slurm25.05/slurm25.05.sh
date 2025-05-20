@@ -1,9 +1,10 @@
 #!/bin/bash
 set -e
 
-TARNAME=$(curl -L https://download.schedmd.com/slurm/SHA256 | tail -n 2 | head -n 1 | cut -d' ' -f3)
+TARNAME=$(curl -L https://download.schedmd.com/slurm/SHA256 | grep slurm-25 | tail -n 2 | head -n 1 | cut -d' ' -f3)
 DIRNAME=${TARNAME%.tar.bz2}
 TAG=$(echo $DIRNAME | sed 's/\./-/g')
+TAG=$(curl -s -N https://api.github.com/repos/schedmd/slurm/tags | jq -r '.[].name' | grep -m 1 $TAG)
 
 curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/${TAG}/slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --enable-selinux \\' slurm.spec
