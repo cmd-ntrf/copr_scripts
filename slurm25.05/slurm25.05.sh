@@ -14,6 +14,7 @@ sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.sp
 # path to figure in the RPATH of pam_slurm_adopt.so. By setting the value to an
 # empty string during the configure, we prevent that from happening.
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ LT_SYS_LIBRARY_PATH="" \\' slurm.spec
+sed -i 's;/usr/share;%{_prefix}/share;g' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
 sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
 curl -L -O https://download.schedmd.com/slurm/${TARNAME}
