@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 
-TAG=$(curl -s -N https://api.github.com/repos/schedmd/slurm/tags | jq -r '.[].name' | grep -m 1 slurm-25-05)
-VERSION=$(echo $TAG | cut -d- -f2,3,4,5)
-TARNAME=$(echo $VERSION | sed 's/-/./g' | cut -d. -f1,2,3)
+TARNAME=$(curl -L https://download.schedmd.com/slurm/SHA256 | tail -n 2 | head -n 1 | cut -d' ' -f3)
+DIRNAME=${TARNAME%.tar.bz2}
+TAG=$(echo $DIRNAME | sed 's/\./-/g')
 
-curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/slurm-${VERSION}/slurm.spec
+curl -L -O https://raw.githubusercontent.com/SchedMD/slurm/${TAG}/slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --enable-selinux \\' slurm.spec
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.spec
 # In RedHat 9, in the generated libtool script, if LT_SYS_LIBRARY_PATH is not set
@@ -15,13 +15,13 @@ sed -i '/^%configure/a \ \ \ \ \ \ \ \ --prefix=/opt/software/slurm \\' slurm.sp
 sed -i '/^%configure/a \ \ \ \ \ \ \ \ LT_SYS_LIBRARY_PATH="" \\' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
 sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
-curl -L -O https://download.schedmd.com/slurm/slurm-25.05-latest.tar.bz2
-tar xf slurm-25.05-latest.tar.bz2
-rm slurm-25.05-latest.tar.bz2
-cd slurm-${TARNAME}*
+curl -L -O https://download.schedmd.com/slurm/${TARNAME}
+tar xf ${TARNAME}
+rm ${TARNAME}
+cd ${DIRNAME}
 autoconf
 aclocal
 automake
 cd ..
-tar cjSf slurm-${TARNAME}.tar.bz2 slurm-${TARNAME}*
-rm -rf slurm-${TARNAME}*
+tar cjSf ${TARNAME} ${DIRNAME}
+rm -rf ${DIRNAME}
