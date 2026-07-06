@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-
-TARNAME=$(curl -L https://download.schedmd.com/slurm/SHA256 | grep slurm-26.05 | tail -n 2 | head -n 1 | cut -d' ' -f3)
+SLURM_VERSION="26.05"
+TARNAME=$(curl -L https://download.schedmd.com/slurm/SHA256 | grep slurm-${SLURM_VERSION} | tail -n 2 | head -n 1 | cut -d' ' -f3)
 DIRNAME=${TARNAME%.tar.bz2}
 TAG=$(echo $DIRNAME | sed 's/\./-/g')
 TAG=$(curl -s -N https://api.github.com/repos/schedmd/slurm/tags | jq -r '.[].name' | grep -m 1 $TAG)
@@ -17,13 +17,20 @@ sed -i '/^%configure/a \ \ \ \ \ \ \ \ LT_SYS_LIBRARY_PATH="" \\' slurm.spec
 sed -i 's;/usr/share;%{_prefix}/share;g' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
 sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
+
+# Get cons_tres-cloud patches and integrate them in spec file
+git clone https://github.com/MagicCastle/slurm-select-cons_tres_cloud cons_tres_cloud
+sed -i "9 a %global patch $(ls cons_tres_cloud/patches/${SLURM_VERSION}/*.patch)" slurm.spec
+
 curl -L -O https://download.schedmd.com/slurm/${TARNAME}
 tar xf ${TARNAME}
 rm ${TARNAME}
 cd ${DIRNAME}
+cp ../cons_tres_cloud/patches/${SLURM_VERSION}/*.patch .
 autoconf
 aclocal
 automake
 cd ..
 tar cjSf ${TARNAME} ${DIRNAME}
 rm -rf ${DIRNAME}
+rm -rf cons_tres_cloud
