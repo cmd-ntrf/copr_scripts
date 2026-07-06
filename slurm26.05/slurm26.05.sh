@@ -20,6 +20,7 @@ sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
 
 # Get cons_tres-cloud patches and integrate them in spec file
 git clone https://github.com/MagicCastle/slurm-select-cons_tres_cloud cons_tres_cloud
+(cd cons_tres_cloud; git checkout patches)
 sed -i "9 a %global patch $(ls cons_tres_cloud/patches/${SLURM_VERSION}/*.patch)" slurm.spec
 
 curl -L -O https://download.schedmd.com/slurm/${TARNAME}
