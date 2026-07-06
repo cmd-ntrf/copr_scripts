@@ -23,7 +23,7 @@ curl -L -O https://github.com/MagicCastle/slurm-select-cons_tres_cloud/archive/r
 unzip patches.zip
 mv slurm-select-cons_tres_cloud-patches cons_tres_cloud
 rm patches.zip
-sed -i "9 a %global patch $(ls cons_tres_cloud/patches/${SLURM_VERSION}/*.patch)" slurm.spec
+sed -i "9 a %global patch $(ls cons_tres_cloud/patches/${SLURM_VERSION})" slurm.spec
 
 curl -L -O https://download.schedmd.com/slurm/${TARNAME}
 tar xf ${TARNAME}
