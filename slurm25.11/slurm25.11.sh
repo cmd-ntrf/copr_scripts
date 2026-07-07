@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-
-TARNAME=$(curl -L https://download.schedmd.com/slurm/SHA256 | grep slurm-25.11 | tail -n 2 | head -n 1 | cut -d' ' -f3)
+SLURM_VERSION="25.11"
+TARNAME=$(curl -L https://download.schedmd.com/slurm/SHA256 | grep slurm-${SLURM_VERSION} | tail -n 2 | head -n 1 | cut -d' ' -f3)
 DIRNAME=${TARNAME%.tar.bz2}
 TAG=$(echo $DIRNAME | sed 's/\./-/g')
 TAG=$(curl -s -N https://api.github.com/repos/schedmd/slurm/tags | jq -r '.[].name' | grep -m 1 $TAG)
@@ -17,6 +17,16 @@ sed -i '/^%configure/a \ \ \ \ \ \ \ \ LT_SYS_LIBRARY_PATH="" \\' slurm.spec
 sed -i 's;/usr/share;%{_prefix}/share;g' slurm.spec
 sed -i '9 a %global _prefix /opt/software/slurm' slurm.spec
 sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
+
+# Get cons_tres-cloud patches and integrate them in spec file
+patch_version="v1.0.0"
+curl -L -O https://github.com/MagicCastle/slurm-select-cons_tres_cloud/archive/refs/tags/${patch_version}.zip
+unzip ${patch_version}.zip
+cp slurm-select-cons_tres_cloud-${patch_version}/patches/${SLURM_VERSION}/*.patch .
+rm -rf slurm-select-cons_tres_cloud-${patch_version}/
+rm patches.zip
+sed -i "1 a %global patch $(echo *.patch)" slurm.spec
+
 curl -L -O https://download.schedmd.com/slurm/${TARNAME}
 tar xf ${TARNAME}
 rm ${TARNAME}
