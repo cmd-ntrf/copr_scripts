@@ -24,7 +24,6 @@ unzip patches.zip
 cp slurm-select-cons_tres_cloud-patches/patches/${SLURM_VERSION}/*.patch .
 rm -rf slurm-select-cons_tres_cloud-patches/
 rm patches.zip
-
 sed -i "9 a %global patch $(echo *.patch)" slurm.spec
 
 
