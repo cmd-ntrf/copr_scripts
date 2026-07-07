@@ -28,7 +28,7 @@ curl -L -O https://download.schedmd.com/slurm/${TARNAME}
 tar xf ${TARNAME}
 rm ${TARNAME}
 cd ${DIRNAME}
-cp ../cons_tres_cloud/patches/${SLURM_VERSION}/*.patch .
+cp ../cons_tres_cloud/patches/${SLURM_VERSION}/*.patch src/
 autoconf
 aclocal
 automake
