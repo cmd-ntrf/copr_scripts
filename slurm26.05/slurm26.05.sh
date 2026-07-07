@@ -24,7 +24,7 @@ unzip patches.zip
 cp slurm-select-cons_tres_cloud-patches/patches/${SLURM_VERSION}/*.patch .
 rm -rf slurm-select-cons_tres_cloud-patches/
 rm patches.zip
-sed -i "9 a %global patch $(echo *.patch)" slurm.spec
+sed -i "1 a %global patch $(echo *.patch)" slurm.spec
 
 
 curl -L -O https://download.schedmd.com/slurm/${TARNAME}
