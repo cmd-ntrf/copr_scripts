@@ -21,9 +21,12 @@ sed -i -e "s;QA_RPATHS=0x5;QA_RPATHS=0x7;g" slurm.spec
 # Get cons_tres-cloud patches and integrate them in spec file
 curl -L -O https://github.com/MagicCastle/slurm-select-cons_tres_cloud/archive/refs/heads/patches.zip
 unzip patches.zip
-mv slurm-select-cons_tres_cloud-patches cons_tres_cloud
-sed -i "9 a %global patch $(ls cons_tres_cloud/patches/${SLURM_VERSION} | xargs echo)" slurm.spec
-cp cons_tres_cloud/patches/${SLURM_VERSION}/*.patch .
+cp slurm-select-cons_tres_cloud-patches/patches/${SLURM_VERSION}/*.patch .
+rm -rf slurm-select-cons_tres_cloud-patches/
+rm patches.zip
+
+sed -i "9 a %global patch $(echo *.patch)" slurm.spec
+
 
 curl -L -O https://download.schedmd.com/slurm/${TARNAME}
 tar xf ${TARNAME}
@@ -31,5 +34,3 @@ rm ${TARNAME}
 (cd ${DIRNAME};  autoconf; aclocal; automake)
 tar cjSf ${TARNAME} ${DIRNAME}
 rm -rf ${DIRNAME}
-rm -rf cons_tres_cloud
-rm patches.zip
